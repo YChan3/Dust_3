@@ -1,0 +1,32 @@
+Dust_3 (Derek Chan and Sarar Aseer)
+
+Description---------------------------------------------------------------------
+We plan to make a sort of quizbowl, or typeracer game where multiple people 
+would compete in various challenges such as typing up passages, or answering 
+riddles, answering questions in, math, English, or history, in addition to, programming 
+challenges.
+(ex: create a file called ex.c and write  terminal echo hello world command).
+
+User Interface------------------------------------------------------------------
+A client will join the lobby and the server will wait for at least one more person (up to 5). If everyone types “ready” in the terminal, the game will begin. First everyone will type in a “in game name”. Then the server will send out a bunch of text based challenges. Points are designated by whoever enters the information first, and correctly. First place gets 10 points, and each other place successively gets 2 points reduced(ex: second place gets 8 points). At the end there will be a global leaderboard, where the points and player name will be saved, and it will be displayed on every local terminal within the game. 
+
+Technical design--------------------------------------------------------------
+How you will be using the topics covered in class in the project.
+Since we need a server that can connect multiple people, we will need to utilize forking and named pipes, 
+We need file descriptors to read the questions and answers, we need to compare strings to check the answers.
+
+How you are breaking down the project and who is responsible for which parts.
+Derek is responsible for connecting clients to servers and sending information between the two.
+Sarar is responsible of keeping track of the answers, ensuring they are correct and points.
+
+What data structures you will be using and how.
+We’re not doing data analysis so we will not use data structures or algorithms
+
+A timeline with expected completion dates of parts of the project.
+1/04: Have forking server working
+1/07: Have server to client communication
+1/11: Have client to server communication
+1/14: Have checking of answers
+1/18: Have adding of questions
+Extra:
+Let the players add questions themselves
