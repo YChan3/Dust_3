@@ -20,7 +20,7 @@ int main() {
   while(1){
     if(read(from_client, input, BUFFER_SIZE)){
       printf("Recieved %s\n", input);
-      sprintf(input, "%s %s!", "Hello" "world");
+      sprintf(input, "%s %s", "Hello", "world");
       write(to_client, "your input was %ld characters.\n", strlen(input));
     }
     else{
