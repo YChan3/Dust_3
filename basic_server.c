@@ -15,16 +15,15 @@ int main() {
   int from_client;
   char input[BUFFER_SIZE];
 
-  from_client = server_handshake( &to_client );
-
   while(1){
-    if(read(from_client, input, BUFFER_SIZE)){
-      printf("Recieved %s\n", input);
-      // sprintf(input, "%s %s", "Hello", "world");
-      write(to_client, "your input was %ld characters.\n", strlen(input));
-    }
-    else{
-      from_client = server_handshake( &to_client );
+    from_client = server_handshake( &to_client );
+
+    if(from_client){
+      while(read(from_client, input, BUFFER_SIZE)){
+        printf("Recieved %s\n", input);
+        // sprintf(input, "%s %s", "Hello", "world");
+        write(to_client, "your input was %ld characters.\n", strlen(input));
+      }
     }
   }
 }
