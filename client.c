@@ -9,12 +9,12 @@ int main() {
 
   from_server = client_handshake( &to_server );
   while(1){
-    if(read(from_server, input, BUFFER_SIZE)){
-      printf("Recieved %s\n", input);
-    }
     printf("%s\n", "What is the input");
     fgets(input, BUFFER_SIZE, stdin);
     strtok(input, "\n");
     write(to_server, input, BUFFER_SIZE);
+
+    read(from_server, input, BUFFER_SIZE);
+    printf("Recieved %s\n", input);
   }
 }
