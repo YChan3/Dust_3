@@ -21,8 +21,8 @@ int main() {
     if(from_client){
       while(read(from_client, input, BUFFER_SIZE)){
         printf("Recieved %s\n", input);
-        // sprintf(input, "%s %s", "Hello", "world");
-        write(to_client, "your input was %ld characters.\n", strlen(input));
+        sprintf(input, "your input was %ld characters\0", strlen(input));
+        write(to_client, input, strlen(input));
       }
     }
   }
