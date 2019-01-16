@@ -16,12 +16,16 @@ int main(int argc, char **argv) {
   shm = shmat(shmid, NULL, 0);
   pids = shm;
   int oplace=0;;
-  if (argc == 2)
-  if (argc == 2)
-    server_socket = client_setup( argv[1]);
-  else
-    server_socket = client_setup( TEST_IP );
+  if(pids[6]==0){
 
+    if (argc == 2)
+      server_socket = client_setup( argv[1]);
+    else
+      server_socket = client_setup( TEST_IP );
+  }
+  else{
+    exit(0);
+  }
   while (1) {
     if(pids[1]>oplace){
       printf("enter data: ");

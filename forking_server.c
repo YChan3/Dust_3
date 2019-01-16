@@ -18,7 +18,7 @@ int main() {
   shm = shmat(shmid, NULL, 0);
   pids = shm;
   pids[1]=0;
-  for(int i=2; i<=5; i++){
+  for(int i=2; i<=6; i++){
     pids[i]=0;
   }
   while (1) {
@@ -49,8 +49,9 @@ int main() {
 	  pids[i]=0;
 	}
 	pids[1]+=1;
+	pids[6]=1;
+	printf("Let the games begin \n");
       }
-      printf("%i\n", pids[1]);
       subserver(client_socket);
     }
     else{
