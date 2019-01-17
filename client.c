@@ -67,7 +67,8 @@ int main(int argc, char **argv) {
     }
     if(pids[7]==1&&beg<2){
       beg++;
-      printf("Calculating winner \n");
+      pids[10]+=1;
+      printf("Calculating winner %i\n",pids[10]);
     }
     if(pids[8]==1){
       FILE *f = fopen("Winners.txt", "rb");

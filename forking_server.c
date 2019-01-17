@@ -161,6 +161,7 @@ char * fWinr(){
 }
 
 void calculate(){
+  printf("hello");
   int shmid;
   key_t key;
   int *shm, *pids;
@@ -190,7 +191,7 @@ int main() {
   shm = shmat(shmid, NULL, 0);
   pids = shm;
   pids[1]=0;
-  for(int i=2; i<=9; i++){
+  for(int i=2; i<=10; i++){
     pids[i]=0;
   }
   while (1) {
@@ -297,8 +298,12 @@ void subserver(int client_socket){
     printf("%s \n",ans);
     fclose(f);
     if(pids[1]==max){
-      calculate();
       pids[7]=1;
+    }
+    if(pids[10]==4){
+      printf("calculating \n");
+      calculate();
+	
     }
     if(pids[9]==4){
       printf("its over bro \n");
