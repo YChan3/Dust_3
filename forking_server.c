@@ -301,6 +301,10 @@ void subserver(int client_socket){
       pids[7]=1;
       calculate();
     }
+    if(pids[8]==1){
+      printf("its over bro \n");
+      exit(0);
+    }
 
   }//End read loop
   close(client_socket);

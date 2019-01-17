@@ -88,6 +88,7 @@ int main(int argc, char **argv) {
 	printf("%s has won \n", args[i]);
       }
       fclose(f);
+      exit(0);
     }
   }
 }
