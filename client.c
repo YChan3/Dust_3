@@ -54,6 +54,10 @@ int main(int argc, char **argv) {
       }
       printf("%s\n",args[pids[1]]);
       fgets(buffer, sizeof(buffer), stdin);
+      while(buffer[0]=='\n'){
+	printf("Give us a real answer please \n");
+	fgets(buffer, sizeof(buffer), stdin);
+      }
       *strchr(buffer, '\n') = 0;
       write(server_socket, buffer, sizeof(buffer));
       read(server_socket, buffer, sizeof(buffer));
