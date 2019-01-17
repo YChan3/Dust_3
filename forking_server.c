@@ -28,6 +28,7 @@ void calculate(){
 }
 
 int main() {
+  remove("PlayerAnswers.txt");
   int listen_socket;
   int f;
   listen_socket = server_setup();

@@ -22,10 +22,13 @@ void calculate(){
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;
-
-    }
+  //your code goes here, calculate who got most right, and store it in a file called Winners,txt
+  
+  pids[8]=1;
+}
 
 int main() {
+  remove("PlayerAnswers.txt");
   int listen_socket;
   int f;
   listen_socket = server_setup();
@@ -74,6 +77,7 @@ int main() {
     }
     else{
       close(client_socket);
+      
     }
   }
 }
