@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
       printf("Calculating winner \n");
     }
     if(pids[8]==1){
-      FILE *f = fopen("Winner.txt", "rb");
+      FILE *f = fopen("Winners.txt", "rb");
       fseek(f, 0, SEEK_END);
       long fsize = ftell(f);
       fseek(f, 0, SEEK_SET);  //same as rewind(f);

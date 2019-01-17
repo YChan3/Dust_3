@@ -15,20 +15,21 @@ void subserver(int from_client);
 #define SHMSZ 27
 
 void calculate(){
- int shmid;
+  int shmid;
   key_t key;
   int *shm, *pids;
   key = 5678;
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;
-  //your code goes here, calculate who got most right, and store it in a file called Winners,txt
+  //your code goes here, calculate who got most right, and store it in a file called Winners.txt
   
   pids[8]=1;
 }
 
 int main() {
   remove("PlayerAnswers.txt");
+  remove("Winners.txt");
   int listen_socket;
   int f;
   listen_socket = server_setup();
@@ -147,17 +148,10 @@ void subserver(int client_socket){
     printf("%s \n",ans);
     fclose(f);
     if(pids[1]==max){
-      int fin=0;
-      for(int i=2; i<=5; i++){
-	if(pids[i]!=0){
-	  fin++;
-	}
-      }
-      if(fin==4){
-	pids[7]=1;
-	calculate();
-      }
+      pids[7]=1;
+      calculate();
     }
+  
   }//End read loop
   close(client_socket);
   exit(0);
