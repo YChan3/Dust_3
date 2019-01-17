@@ -161,7 +161,7 @@ char * fWinr(){
 }
 
 void calculate(){
-  printf("hello \n");
+  printf("Start of calculate \n");
   int shmid;
   key_t key;
   int *shm, *pids;
@@ -170,10 +170,12 @@ void calculate(){
   shm = shmat(shmid, NULL, 0);
   pids = shm;
   FILE *fp;
+  printf("Start of fWinr \n");
   char * winner = fWinr();
   fp = fopen("Winners.txt", "w");
   fputs(winner, fp);
   fclose(fp);
+  printf("end of calculate \n");
   pids[8]=1;
 }
 
