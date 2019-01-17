@@ -161,7 +161,7 @@ char * fWinr(){
 }
 
 void calculate(){
-  printf("hello");
+  printf("hello \n");
   int shmid;
   key_t key;
   int *shm, *pids;
@@ -303,6 +303,7 @@ void subserver(int client_socket){
     if(pids[10]==4){
       printf("calculating \n");
       calculate();
+      printf("done \n");
 	
     }
     if(pids[9]==4){
