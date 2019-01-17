@@ -168,7 +168,7 @@ void calculate(){
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;
-
+  FILE *fp;
   char * winner = fWinr();
   fp = fopen("Winners.txt", "w");
   fputs(winner, fp);
