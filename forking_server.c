@@ -77,6 +77,7 @@ int main() {
     }
     else{
       close(client_socket);
+      
     }
   }
 }
@@ -117,7 +118,24 @@ void subserver(int client_socket){
       
       pids[1]+=1;
     }
-    int max=0;
+    FILE *q = fopen("questions.txt", "rb");
+    fseek(q, 0, SEEK_END);
+    long fsize = ftell(q);
+    fseek(q, 0, SEEK_SET);  //same as rewind(f);
+    char *line = malloc(fsize + 1);
+    fread(line, fsize, 1, q);
+    char ** args = calloc(6, sizeof(line));
+    char * s = strdup(line);
+    int z = 0;
+    while(args[z] = strsep(&s, "\n")){
+      z++;
+    }
+    z=0;
+    while(args[z]!=NULL){
+      z++;
+    }
+    fclose(q);
+    int max=z;
     printf("[subserver %d] received: [%s]\n", getpid(), buffer);
     write(client_socket, buffer, sizeof(buffer));
     FILE *f = fopen("PlayerAnswers.txt","a");
@@ -128,9 +146,17 @@ void subserver(int client_socket){
     fprintf(f,"%s\n",ans);
     printf("%s \n",ans);
     fclose(f);
-    if(pids[1]==20){
-      pids[7]=1;
-      calculate();
+    if(pids[1]==max){
+      int fin=0;
+      for(int i=2; i<=5; i++){
+	if(pids[i]!=0){
+	  fin++;
+	}
+      }
+      if(fin==4){
+	pids[7]=1;
+	calculate();
+      }
     }
   }//End read loop
   close(client_socket);

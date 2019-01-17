@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
     i++;
   }
   args[i-1]=NULL;
+  printf("%i",i);
   fclose(f);
   while (1) {
     if(pids[1]>oplace && pids[7]!=1){
