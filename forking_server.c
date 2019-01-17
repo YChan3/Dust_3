@@ -173,7 +173,6 @@ void calculate(){
   fp = fopen("Winners.txt", "w");
   fputs(winner, fp);
   fclose(fp);
-
   pids[8]=1;
 }
 
@@ -298,8 +297,8 @@ void subserver(int client_socket){
     printf("%s \n",ans);
     fclose(f);
     if(pids[1]==max){
-      pids[7]=1;
       calculate();
+      pids[7]=1;
     }
     if(pids[9]==4){
       printf("its over bro \n");

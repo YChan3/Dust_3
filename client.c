@@ -84,9 +84,7 @@ int main(int argc, char **argv) {
       }
       args[i-1]=NULL;
       i = 0;
-      while(args[i]!=NULL){
-	printf("%s has won \n", args[i]);
-      }
+      printf("%s has won \n", args[0]);  
       fclose(f);
       pids[9]+=1;
       shmdt(pids); 
