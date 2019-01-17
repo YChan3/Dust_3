@@ -88,6 +88,8 @@ int main(int argc, char **argv) {
 	printf("%s has won \n", args[i]);
       }
       fclose(f);
+      pids[9]+=1;
+      shmdt(pids); 
       exit(0);
     }
   }

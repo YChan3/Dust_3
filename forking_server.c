@@ -191,7 +191,7 @@ int main() {
   shm = shmat(shmid, NULL, 0);
   pids = shm;
   pids[1]=0;
-  for(int i=2; i<=8; i++){
+  for(int i=2; i<=9; i++){
     pids[i]=0;
   }
   while (1) {
@@ -301,8 +301,10 @@ void subserver(int client_socket){
       pids[7]=1;
       calculate();
     }
-    if(pids[8]==1){
+    if(pids[9]==4){
       printf("its over bro \n");
+      shmdt(pids);     
+      shmctl(shmid,IPC_RMID,NULL); 
       exit(0);
     }
 
