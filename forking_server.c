@@ -45,7 +45,7 @@ char * fWinr(){
 
   /* opening file for reading */
   fp = fopen("PlayerAnswers.txt" , "r");
-
+  printf("got it open dude \n");
   int i = 1;
   struct player p1;
   struct player p2;
@@ -87,7 +87,7 @@ char * fWinr(){
   strcpy(p4.name, token);
 
   fa = fopen("answers.txt" , "r");
-
+  printf("in the middle \n");
   while(fgets(ans, 256, fa) != NULL){
     int counter = 4;
     while(counter--){
@@ -135,6 +135,7 @@ char * fWinr(){
   }
   fclose(fa);
   fclose(fp);
+  printf("open sesame \n");
   struct player w1;
   struct player w2;
   if(p1.score > p2.score){
@@ -157,6 +158,7 @@ char * fWinr(){
     return(str_to_ret);
   }
   strcpy(str_to_ret, w2.name);
+  printf("near end \n");
   return(str_to_ret);
 }
 
@@ -165,16 +167,17 @@ void calculate(){
   int shmid;
   key_t key;
   int *shm, *pids;
+  char **winnerglob;
   key = 5678;
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;
-  FILE *fp;
+  shmid = shmget(5679, SHMSZ, IPC_CREAT | 0666);
+  shm = shmat(shmid, NULL, 0);
+  winnerglob=(char**)shm;
   printf("Start of fWinr \n");
   char * winner = fWinr();
-  fp = fopen("Winners.txt", "w");
-  fputs(winner, fp);
-  fclose(fp);
+  winnerglob[1]=winner;
   printf("end of calculate \n");
   pids[8]=1;
 }
@@ -288,7 +291,7 @@ void subserver(int client_socket){
       z++;
     }
     fclose(q);
-    int max=z;
+    int max=z-2;
     printf("[subserver %d] received: [%s]\n", getpid(), buffer);
     write(client_socket, buffer, sizeof(buffer));
     FILE *f = fopen("PlayerAnswers.txt","a");

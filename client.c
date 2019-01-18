@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
     i++;
   }
   args[i-1]=NULL;
-  printf("%i",i);
   fclose(f);
   while (1) {
     if(pids[1]>oplace && pids[7]!=1){
@@ -62,36 +61,20 @@ int main(int argc, char **argv) {
       write(server_socket, buffer, sizeof(buffer));
       read(server_socket, buffer, sizeof(buffer));
       printf("received: [%s]\n", buffer);
-      oplace++;
-     
+      oplace++;   
     }
     if(pids[7]==1&&beg<2){
       beg++;
       pids[10]++;
     }
     if(pids[8]==1){
-      FILE *f = fopen("Winners.txt", "rb");
-      fseek(f, 0, SEEK_END);
-      long fsize = ftell(f);
-      fseek(f, 0, SEEK_SET);  //same as rewind(f);
-      char *line = malloc(fsize + 1);
-      fread(line, fsize, 1, f);
-      char ** args = calloc(6, sizeof(line));
-      char * s = strdup(line);
-      int i = 0;
-      while(args[i] = strsep(&s, "\n")){
-	i++;
-      }
-      i=0;
-      while(args[i]!=NULL){
-	i++;
-      }
-      args[i-1]=NULL;
-      i = 0;
-      printf("%s has won \n", args[0]);  
-      fclose(f);
+      char **winnerglob;
+      key = 5678;
+      shmid = shmget(5679, SHMSZ, IPC_CREAT | 0666);
+      shm = shmat(shmid, NULL, 0);
+      winnerglob=(char**)shm;
+      printf("%s has won \n", winnerglob[0]);  
       pids[9]+=1;
-      shmdt(pids); 
       exit(0);
     }
   }
