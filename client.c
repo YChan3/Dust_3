@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
       shmid = shmget(5679, SHMSZ, IPC_CREAT | 0666);
       shm = shmat(shmid, NULL, 0);
       winnerglob=(char**)shm;
-      printf("%s has won \n", winnerglob[0]);  
+      printf("%s has won \n", winnerglob[1]);  
       pids[9]+=1;
       exit(0);
     }
