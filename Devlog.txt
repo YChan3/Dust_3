@@ -1,0 +1,6 @@
+Sarar: Created the networking portion, and tracking of answers.
+Derek. Did the end of round mark ups for the answers( did not work, his code was fine, something was wrong with memory allocation, only worked half the time)
+Sarar: tried to make a second method for it
+
+Note:
+I apologize for not being detailed, I'm rushing to send this in, its 7 am right now, and I could not find a way to fix the project
