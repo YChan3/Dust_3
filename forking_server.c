@@ -167,17 +167,16 @@ void calculate(){
   int shmid;
   key_t key;
   int *shm, *pids;
-  char **winnerglob;
   key = 5678;
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;
-  shmid = shmget(5679, SHMSZ, IPC_CREAT | 0666);
-  shm = shmat(shmid, NULL, 0);
-  winnerglob=(char**)shm;
+  int a = shmget(5679,1024,0666|IPC_CREAT);
+  char *winnerglob = (char*) shmat(a,(void*)0,0); 
   printf("Start of fWinr \n");
   char * winner = fWinr();
-  winnerglob[1]=winner;
+  strcpy(winnerglob,winner);
+  printf("%s \n", winnerglob);
   printf("end of calculate \n");
   pids[8]=1;
 }
@@ -194,9 +193,18 @@ int main() {
   key = 5678;
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
+  pids = shm;  
+  shmdt(pids);
+  shmctl(shmid,IPC_RMID,NULL);
+  int a = shmget(5679,1024,0666|IPC_CREAT);
+  char *winnerglob = (char*) shmat(a,(void*)0,0);
+  shmdt(winnerglob);
+  shmctl(a,IPC_RMID,NULL);
+  printf("destroy \n");
+  shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
+  shm = shmat(shmid, NULL, 0);
   pids = shm;
-  pids[1]=0;
-  for(int i=2; i<=10; i++){
+  for(int i=1; i<=10; i++){
     pids[i]=0;
   }
   while (1) {
@@ -232,6 +240,7 @@ int main() {
       subserver(client_socket);
     }
     else{
+      
       close(client_socket);
 
     }
@@ -271,7 +280,6 @@ void subserver(int client_socket){
       for(int i=2; i<=5; i++){
 	pids[i]=0;
       }
-
       pids[1]+=1;
     }
     FILE *q = fopen("questions.txt", "rb");
@@ -308,14 +316,9 @@ void subserver(int client_socket){
     if(pids[10]==4){
       printf("calculating \n");
       calculate();
+      pids[10]++;
       printf("done \n");
 	
-    }
-    if(pids[9]==4){
-      printf("its over bro \n");
-      shmdt(pids);     
-      shmctl(shmid,IPC_RMID,NULL); 
-      exit(0);
     }
 
   }//End read loop

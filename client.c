@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
   int shmid;
   key_t key;
   int *shm, *pids;
-  key = 5678;
+  key = 5678;   
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;
@@ -66,15 +66,15 @@ int main(int argc, char **argv) {
     if(pids[7]==1&&beg<2){
       beg++;
       pids[10]++;
+      printf("%i \n",pids[10]);
     }
-    if(pids[8]==1){
-      char **winnerglob;
-      key = 5678;
-      shmid = shmget(5679, SHMSZ, IPC_CREAT | 0666);
-      shm = shmat(shmid, NULL, 0);
-      winnerglob=(char**)shm;
-      printf("%s has won \n", winnerglob[1]);  
-      pids[9]+=1;
+    if(pids[8]==1 && pids[10]>=5 && beg<3){
+      beg++;
+      pids[9]==1;
+      int a;
+      a = shmget(5679,1024,0666|IPC_CREAT);
+      char *winnerglob = (char*) shmat(a,(void*)0,0); 
+      printf("The winners are: \n", winnerglob);
       exit(0);
     }
   }
