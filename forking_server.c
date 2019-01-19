@@ -43,6 +43,7 @@ char* tup(char * change) {
 }
 
 char* win(){
+  printf("geg112egege");
   int shmid;
   key_t key;
   int *shm, *pids;
@@ -66,6 +67,8 @@ char* win(){
   
   char * buffer = 0;
   long length;
+    printf("gegegeasdge");
+    
   FILE * f = fopen ("PlayerAnswers.txt", "rb");
   if (f){
     fseek (f, 0, SEEK_END);
@@ -84,7 +87,7 @@ char* win(){
     i++;
   }
   args[i-1]='\0';
-  
+  printf("gegegege");
   char * buffer2 = 0;
   long length2;
   FILE * f1 = fopen ("answers.txt", "rb");
@@ -144,6 +147,7 @@ char* win(){
   if(corr[2]==corr[3]==corr[4]==corr[5]){
     return 0;
   }
+  
   int best=2;
   for(int y=2; y<=5;y++ ){
     if(corr[y]>corr[best]){
@@ -310,7 +314,121 @@ void calculate(){
   int a = shmget(5679,1024,0666|IPC_CREAT);
   char *winnerglob = (char*) shmat(a,(void*)0,0); 
   printf("Start of fWinr \n");
-  char * winner = "Sorry the asnwering service is down";
+   printf("geg112egege");
+  
+  int * pi =calloc(5, sizeof(int));
+  int * corr =calloc(5, sizeof(int));
+  char ** p;
+  corr[2]=0;
+  corr[3]=0;
+  corr[4]=0;
+  corr[5]=0;
+  
+  pi[2]=pids[22];
+  pi[3]=pids[23];
+  pi[4]=pids[24];
+  pi[5]=pids[25];
+
+  
+  char * buffer = 0;
+  long length;
+    printf("gegegeasdge");
+    
+  FILE * f = fopen ("PlayerAnswers.txt", "rb");
+  if (f){
+    fseek (f, 0, SEEK_END);
+    length = ftell (f);
+    fseek (f, 0, SEEK_SET);
+    buffer = malloc (length);
+    if (buffer)
+      {
+	fread (buffer, 1, length, f);
+      }
+    fclose (f);
+  }
+  char ** args = calloc(6, sizeof(buffer));
+  int i = 0;
+  while(args[i] = strsep(&buffer, "\n")){
+    i++;
+  }
+  args[i-1]='\0';
+  printf("gegegege");
+  char * buffer2 = 0;
+  long length2;
+  FILE * f1 = fopen ("answers.txt", "rb");
+  if (f1){
+    fseek (f1, 0, SEEK_END);
+    length2 = ftell (f1);
+    fseek (f1, 0, SEEK_SET);
+    buffer2 = malloc (length2);
+    if (buffer2)
+      {
+	fread (buffer2, 1, length2, f1);
+      }
+    fclose (f1);
+  }
+  char ** args2 = calloc(20, sizeof(buffer2));
+  int i2 = 0;
+  while(args2[i2] = strsep(&buffer2, ",")){
+    i2++;
+  }
+  args2[i2-1]='\0';
+  i2=0;
+  while(args2[i2]!=NULL && args2[i2]!='\n'){
+    i=0;
+    while(args[i]!=NULL && args[i]!='\n'){
+      char bu[100];
+      strcpy(bu, args[i]);
+      char * sec=bu;
+      char * res= strsep(&sec, ":");
+      if(strcmp(args2[i2],tup(sec))==0){
+	char as2[10];
+	char as3[10];
+	char as4[10];
+	char as5[10];	  
+	snprintf(as2, 10, "%d", pi[2]);
+	snprintf(as3, 10, "%d", pi[3]);
+	snprintf(as4, 10, "%d", pi[4]);
+	snprintf(as5, 10, "%d", pi[5]);
+	if(strcmp(res,as2)==0){
+	  corr[2]++;
+	}
+	else if(strcmp(res,as3)==0){
+	  corr[3]++;
+	}
+	else if(strcmp(res,as4)==0){
+	  corr[4]++;
+	}
+	
+	else if(strcmp(res,as5)==0){
+	  corr[5]++;
+	}
+	
+      }
+      i++;
+    }
+    i2++;
+  }
+  if(corr[2]==corr[3]==corr[4]==corr[5]){
+  }
+  
+  int best=2;
+  for(int y=2; y<=5;y++ ){
+    if(corr[y]>corr[best]){
+      best=y;
+    }
+  }
+
+  char *pid1=strsep(&args[0], ":");
+  char *p1 =args[0];
+  char *pid2=strsep(&args[1], ":");
+  char *p2 =args[1];
+  char *pid3=strsep(&args[2], ":");
+  char *p3 =args[2];
+  char *pid4=strsep(&args[3], ":");
+  char *p4 =args[3];
+
+  char * winner = args[best-2];
   strcpy(winnerglob,winner);
   printf("%s \n", winnerglob);
   printf("end of calculate \n");
@@ -444,11 +562,13 @@ void subserver(int client_socket){
     }
     if(pids[10]==4){
       printf("calculating \n");
-      printf("%s \n", win);
       calculate();
       pids[10]++;
       printf("done \n");
 	
+    }
+    if(pids[13]==1){
+      break;
     }
 
   }//End read loop

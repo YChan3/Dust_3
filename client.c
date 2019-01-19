@@ -76,6 +76,7 @@ int main(int argc, char **argv) {
       char *winnerglob = (char*) shmat(a,(void*)0,0); 
       printf("The winners are: %s \n", winnerglob);
       printf("Play again & have fun! \n");
+      pids[13]=1;
       shmdt(pids);
       shmctl(shmid,IPC_RMID,NULL);
       shmdt(winnerglob);
