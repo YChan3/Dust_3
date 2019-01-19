@@ -330,15 +330,7 @@ int main() {
   shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   pids = shm;  
-  shmdt(pids);
-  shmctl(shmid,IPC_RMID,NULL);
-  int a = shmget(5679,1024,0666|IPC_CREAT);
-  char *winnerglob = (char*) shmat(a,(void*)0,0);
-  shmdt(winnerglob);
-  shmctl(a,IPC_RMID,NULL);
-  printf("destroy \n");
-  shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
-  shm = shmat(shmid, NULL, 0);
+    
   pids = shm;
   for(int i=1; i<=10; i++){
     pids[i]=0;
@@ -452,6 +444,7 @@ void subserver(int client_socket){
     }
     if(pids[10]==4){
       printf("calculating \n");
+      printf("%s \n", win);
       calculate();
       pids[10]++;
       printf("done \n");
