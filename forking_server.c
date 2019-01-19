@@ -28,7 +28,7 @@ void convertToUpperCase(char * temp) {
 
 }
 
-char * fWinr(int max){
+char * fWinr(){
   FILE *fp;
   FILE *fa;
   char input[256];
@@ -45,7 +45,7 @@ char * fWinr(int max){
 
   /* opening file for reading */
   fp = fopen("PlayerAnswers.txt" , "r");
-
+  printf("got it open dude \n");
   int i = 1;
   struct player p1;
   struct player p2;
@@ -87,9 +87,8 @@ char * fWinr(int max){
   strcpy(p4.name, token);
 
   fa = fopen("answers.txt" , "r");
-
-  while(max--){
-    fgets(ans, 256, fa);
+  printf("in the middle \n");
+  while(fgets(ans, 256, fa) != NULL){
     int counter = 4;
     while(counter--){
       fgets(input, 256, fp);
@@ -136,6 +135,7 @@ char * fWinr(int max){
   }
   fclose(fa);
   fclose(fp);
+  printf("open sesame \n");
   struct player w1;
   struct player w2;
   if(p1.score > p2.score){
@@ -158,6 +158,7 @@ char * fWinr(int max){
     return(str_to_ret);
   }
   strcpy(str_to_ret, w2.name);
+  printf("near end \n");
   return(str_to_ret);
 }
 
@@ -173,26 +174,9 @@ void calculate(){
   int a = shmget(5679,1024,0666|IPC_CREAT);
   char *winnerglob = (char*) shmat(a,(void*)0,0); 
   printf("Start of fWinr \n");
-  FILE *q = fopen("questions.txt", "rb");
-  fseek(q, 0, SEEK_END);
-  long fsize = ftell(q);
-  fseek(q, 0, SEEK_SET);  //same as rewind(f);
-  char *line = malloc(fsize + 1);
-  fread(line, fsize, 1, q);
-  char ** args = calloc(6, sizeof(line));
-  char * s = strdup(line);
-  int z = 0;
-  while(args[z] = strsep(&s, "\n")){
-    z++;
-  }
-  z=0;
-  while(args[z]!=NULL){
-    z++;
-  }
-  fclose(q);
-  int max=z-2;
-  char * winner = fWinr(max);
+  char * winner = fWinr();
   strcpy(winnerglob,winner);
+  printf("%s \n", winnerglob);
   printf("end of calculate \n");
   pids[8]=1;
 }
@@ -341,7 +325,6 @@ void subserver(int client_socket){
   close(client_socket);
   exit(0);
 }
-
 
 
 void process(char * s) {
