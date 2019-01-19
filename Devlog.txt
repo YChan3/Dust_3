@@ -1,7 +1,8 @@
 Sarar: Created the networking portion, and tracking of answers.
-Derek. Did the end of round mark ups for the answers
-Sarar: tried to make a second method for it, as the first one was buggy
-Still buggy, only works sometimes, cannot find out why
+Derek. Did the end of round mark ups for the answers, on unbuntu the program would not reach the calculate while on MacOs it did and would crash in the calculate function.
+Sarar: tried to make a second method for it, as the first one was buggy, the program finishes and executes on a mac but does not on a unbuntu machine, the same error as above occurs.
+
+Note:Still buggy, only works sometimes, cannot find out why
 
 Note:
 I apologize for not being detailed, I'm rushing to send this in, its 7 am right now, and I could not find a way to fix the project
