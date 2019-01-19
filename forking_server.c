@@ -28,7 +28,7 @@ void convertToUpperCase(char * temp) {
 
 }
 
-char * fWinr(){
+char * fWinr(int max){
   FILE *fp;
   FILE *fa;
   char input[256];
@@ -45,7 +45,7 @@ char * fWinr(){
 
   /* opening file for reading */
   fp = fopen("PlayerAnswers.txt" , "r");
-  printf("got it open dude \n");
+
   int i = 1;
   struct player p1;
   struct player p2;
@@ -87,8 +87,9 @@ char * fWinr(){
   strcpy(p4.name, token);
 
   fa = fopen("answers.txt" , "r");
-  printf("in the middle \n");
-  while(fgets(ans, 256, fa) != NULL){
+
+  while(max--){
+    fgets(ans, 256, fa);
     int counter = 4;
     while(counter--){
       fgets(input, 256, fp);
@@ -135,7 +136,6 @@ char * fWinr(){
   }
   fclose(fa);
   fclose(fp);
-  printf("open sesame \n");
   struct player w1;
   struct player w2;
   if(p1.score > p2.score){
@@ -158,7 +158,6 @@ char * fWinr(){
     return(str_to_ret);
   }
   strcpy(str_to_ret, w2.name);
-  printf("near end \n");
   return(str_to_ret);
 }
 
@@ -175,8 +174,28 @@ void calculate(){
   shmid = shmget(5679, SHMSZ, IPC_CREAT | 0666);
   shm = shmat(shmid, NULL, 0);
   winnerglob=(char**)shm;
+
+  FILE *q = fopen("questions.txt", "rb");
+  fseek(q, 0, SEEK_END);
+  long fsize = ftell(q);
+  fseek(q, 0, SEEK_SET);  //same as rewind(f);
+  char *line = malloc(fsize + 1);
+  fread(line, fsize, 1, q);
+  char ** args = calloc(6, sizeof(line));
+  char * s = strdup(line);
+  int z = 0;
+  while(args[z] = strsep(&s, "\n")){
+    z++;
+  }
+  z=0;
+  while(args[z]!=NULL){
+    z++;
+  }
+  fclose(q);
+  int max=z-2;
+
   printf("Start of fWinr \n");
-  char * winner = fWinr();
+  char * winner = fWinr(max);
   winnerglob[1]=winner;
   printf("end of calculate \n");
   pids[8]=1;
@@ -309,12 +328,12 @@ void subserver(int client_socket){
       printf("calculating \n");
       calculate();
       printf("done \n");
-	
+
     }
     if(pids[9]==4){
       printf("its over bro \n");
-      shmdt(pids);     
-      shmctl(shmid,IPC_RMID,NULL); 
+      shmdt(pids);
+      shmctl(shmid,IPC_RMID,NULL);
       exit(0);
     }
 
