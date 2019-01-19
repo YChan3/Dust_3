@@ -28,6 +28,142 @@ void convertToUpperCase(char * temp) {
 
 }
 
+char* tup(char * change) {
+  int i = 0;
+  char c;
+  char str[200];
+  strcpy(str,change);
+  while(*change++) {
+    str[i]=toupper(str[i]);
+    i++;
+  }
+  char *m=str;
+  return m;
+
+}
+
+char* win(){
+  int shmid;
+  key_t key;
+  int *shm, *pids;
+  key = 5678;
+  shmid = shmget(key, SHMSZ, IPC_CREAT | 0666);
+  shm = shmat(shmid, NULL, 0);
+  pids = shm;
+  int * pi =calloc(5, sizeof(int));
+  int * corr =calloc(5, sizeof(int));
+  char ** p;
+  corr[2]=0;
+  corr[3]=0;
+  corr[4]=0;
+  corr[5]=0;
+  
+  pi[2]=pids[22];
+  pi[3]=pids[23];
+  pi[4]=pids[24];
+  pi[5]=pids[25];
+
+  
+  char * buffer = 0;
+  long length;
+  FILE * f = fopen ("PlayerAnswers.txt", "rb");
+  if (f){
+    fseek (f, 0, SEEK_END);
+    length = ftell (f);
+    fseek (f, 0, SEEK_SET);
+    buffer = malloc (length);
+    if (buffer)
+      {
+	fread (buffer, 1, length, f);
+      }
+    fclose (f);
+  }
+  char ** args = calloc(6, sizeof(buffer));
+  int i = 0;
+  while(args[i] = strsep(&buffer, "\n")){
+    i++;
+  }
+  args[i-1]='\0';
+  
+  char * buffer2 = 0;
+  long length2;
+  FILE * f1 = fopen ("answers.txt", "rb");
+  if (f1){
+    fseek (f1, 0, SEEK_END);
+    length2 = ftell (f1);
+    fseek (f1, 0, SEEK_SET);
+    buffer2 = malloc (length2);
+    if (buffer2)
+      {
+	fread (buffer2, 1, length2, f1);
+      }
+    fclose (f1);
+  }
+  char ** args2 = calloc(20, sizeof(buffer2));
+  int i2 = 0;
+  while(args2[i2] = strsep(&buffer2, ",")){
+    i2++;
+  }
+  args2[i2-1]='\0';
+  i2=0;
+  while(args2[i2]!=NULL && args2[i2]!='\n'){
+    i=0;
+    while(args[i]!=NULL && args[i]!='\n'){
+      char bu[100];
+      strcpy(bu, args[i]);
+      char * sec=bu;
+      char * res= strsep(&sec, ":");
+      if(strcmp(args2[i2],tup(sec))==0){
+	char as2[10];
+	char as3[10];
+	char as4[10];
+	char as5[10];	  
+	snprintf(as2, 10, "%d", pi[2]);
+	snprintf(as3, 10, "%d", pi[3]);
+	snprintf(as4, 10, "%d", pi[4]);
+	snprintf(as5, 10, "%d", pi[5]);
+	if(strcmp(res,as2)==0){
+	  corr[2]++;
+	}
+	else if(strcmp(res,as3)==0){
+	  corr[3]++;
+	}
+	else if(strcmp(res,as4)==0){
+	  corr[4]++;
+	}
+	
+	else if(strcmp(res,as5)==0){
+	  corr[5]++;
+	}
+	
+      }
+      i++;
+    }
+    i2++;
+  }
+  if(corr[2]==corr[3]==corr[4]==corr[5]){
+    return 0;
+  }
+  int best=2;
+  for(int y=2; y<=5;y++ ){
+    if(corr[y]>corr[best]){
+      best=y;
+    }
+  }
+
+  char *pid1=strsep(&args[0], ":");
+  char *p1 =args[0];
+  char *pid2=strsep(&args[1], ":");
+  char *p2 =args[1];
+  char *pid3=strsep(&args[2], ":");
+  char *p3 =args[2];
+  char *pid4=strsep(&args[3], ":");
+  char *p4 =args[3];
+
+  return args[best-2];
+  
+}
+
 char * fWinr(){
   FILE *fp;
   FILE *fa;
@@ -174,7 +310,7 @@ void calculate(){
   int a = shmget(5679,1024,0666|IPC_CREAT);
   char *winnerglob = (char*) shmat(a,(void*)0,0); 
   printf("Start of fWinr \n");
-  char * winner = fWinr();
+  char * winner = "Sorry the asnwering service is down";
   strcpy(winnerglob,winner);
   printf("%s \n", winnerglob);
   printf("end of calculate \n");
@@ -257,6 +393,7 @@ void subserver(int client_socket){
   shm = shmat(shmid, NULL, 0);
   pids = shm;
   while (read(client_socket, buffer, sizeof(buffer))) {
+    
     int count=0;
     int spot=0;
     for(int i=2; i<=5; i++){
